@@ -10,6 +10,6 @@ namespace somiod.Models
         public int id { get; set; }
         public string name { get; set; }
         public DateTime creation_dt { get; set; }
-        public int parent { get; set; } 
+        public int parent { get; set; }
     }
 }
