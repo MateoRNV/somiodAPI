@@ -5,11 +5,10 @@ using System.Web;
 
 namespace somiod.Models
 {
-    public class Module
+    public class ApplicationClass
     {
         public int id { get; set; }
         public string name { get; set; }
         public DateTime creation_dt { get; set; }
-        public int parent { get; set; }
     }
 }

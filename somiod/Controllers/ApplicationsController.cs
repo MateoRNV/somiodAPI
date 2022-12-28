@@ -17,9 +17,9 @@ namespace somiod.Controllers
         SqlConnection connection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\somiodDB.mdf;Integrated Security=True");
 
         // GET: api/Application
-        public IEnumerable<Application> Get()
+        public IEnumerable<ApplicationClass> Get()
         {
-            List<Application> applications = new List<Application>();
+            List<ApplicationClass> applications = new List<ApplicationClass>();
             string query = "SELECT * FROM dbo.Applications;";
 
             using (connection)
@@ -31,7 +31,7 @@ namespace somiod.Controllers
                     SqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                        var applicationsItem = new Application();
+                        ApplicationClass applicationsItem = new ApplicationClass();
 
                         applicationsItem.id = int.Parse(reader["id"].ToString());
                         applicationsItem.name = reader["name"].ToString();
@@ -51,10 +51,10 @@ namespace somiod.Controllers
         }
 
         // GET: api/Application/5
-        public Application Get(string id)
+        public ApplicationClass Get(string id)
         {
             //System.Diagnostics.Debug.WriteLine("test "+ name);
-            Application application = new Application();
+            ApplicationClass application = new ApplicationClass();
             string query = "SELECT * FROM dbo.Applications where name = @NAME;";
 
 
@@ -92,7 +92,7 @@ namespace somiod.Controllers
         {
 
             string createCommand = "Insert into dbo.Applications (name, creation_dt) output INSERTED.ID VALUES (@NAME, @DATE);";
-            Application applicationCreated = new Application();
+            ApplicationClass applicationCreated = new ApplicationClass();
 
             using (connection)
             {
@@ -130,7 +130,7 @@ namespace somiod.Controllers
         public IHttpActionResult Put(int id, [FromBody]ApplicationDTO applicationDTO)
         {
             string updateCommand = "Update dbo.Applications SET name = (@NAME) WHERE id = @ID;";
-            Application applicationCreated = new Application();
+            ApplicationClass applicationCreated = new ApplicationClass();
 
 
             using (connection)
@@ -162,7 +162,7 @@ namespace somiod.Controllers
         public IHttpActionResult Delete(int id)
         {
             string deleteCommand = "Delete from dbo.Applications where id = @ID;";
-            Application applicationCreated = new Application();
+            ApplicationClass applicationCreated = new ApplicationClass();
 
             using (connection)
             {
