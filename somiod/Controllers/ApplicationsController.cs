@@ -35,6 +35,7 @@ namespace somiod.Controllers
 
                         applicationsItem.id = int.Parse(reader["id"].ToString());
                         applicationsItem.name = reader["name"].ToString();
+                        applicationsItem.creation_dt = DateTime.Parse(reader["creation_dt"].ToString());
                         applications.Add(applicationsItem);
 
                     }
@@ -50,10 +51,12 @@ namespace somiod.Controllers
         }
 
         // GET: api/Application/5
-        public Application Get(int id)
+        public Application Get(string id)
         {
+            //System.Diagnostics.Debug.WriteLine("test "+ name);
             Application application = new Application();
-            string query = "SELECT * FROM dbo.Applications where id = @ID;";
+            string query = "SELECT * FROM dbo.Applications where name = @NAME;";
+
 
             using (connection)
             {
@@ -61,7 +64,7 @@ namespace somiod.Controllers
                 try
                 {
                     connection.Open();
-                    command.Parameters.AddWithValue("id", id);
+                    command.Parameters.AddWithValue("name", id);
                     SqlDataReader reader = command.ExecuteReader();
                     while(reader.Read())
                     {
@@ -111,7 +114,6 @@ namespace somiod.Controllers
                     applicationCreated.name = applicationReq.name;
                     applicationCreated.creation_dt = date;
 
-                    //System.Diagnostics.Debug.WriteLine("test "+ date);
                     connection.Close();
 
                     return Ok(applicationCreated);  
@@ -127,7 +129,7 @@ namespace somiod.Controllers
         // PUT: api/Application/5
         public IHttpActionResult Put(int id, [FromBody]ApplicationDTO applicationDTO)
         {
-            string updateCommand = "Update dbo.Applications SET name = (@NAME) where id = @ID;";
+            string updateCommand = "Update dbo.Applications SET name = (@NAME) WHERE id = @ID;";
             Application applicationCreated = new Application();
 
 
@@ -140,7 +142,7 @@ namespace somiod.Controllers
                     connection.Open();
                     command.CommandType = System.Data.CommandType.Text;
                     command.Parameters.AddWithValue("id", id);
-                    command.Parameters.AddWithValue("@NAME", applicationDTO.name.ToString());
+                    command.Parameters.AddWithValue("@NAME", applicationDTO.name);
 
                     command.ExecuteNonQuery();
                     connection.Close();
